@@ -15,11 +15,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import jakarta.annotation.security.PermitAll;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
 
-
+@Getter
+@Setter
 @PermitAll
 @Route(value = "cereals", layout = CerealMainLayout.class)
 public class CerealView extends VerticalLayout implements Serializable {
@@ -103,6 +106,10 @@ public class CerealView extends VerticalLayout implements Serializable {
 				top5ProteinButton, resetButton);
 
 		add(row1, row2, actionButtonsLayout, analysisButtonsLayout, cerealGrid);
+	}
+
+	public void triggerResetGrid() {
+		resetGrid();
 	}
 
 	private boolean areFieldsValid() {

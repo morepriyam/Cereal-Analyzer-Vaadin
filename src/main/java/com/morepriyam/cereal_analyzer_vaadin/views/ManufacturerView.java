@@ -11,11 +11,14 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 
 import jakarta.annotation.security.PermitAll;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
-
 @PermitAll
+@Getter
+@Setter
 @Route(value = "manufacturers", layout = CerealMainLayout.class)
 public class ManufacturerView extends VerticalLayout implements Serializable {
 
@@ -85,7 +88,7 @@ public class ManufacturerView extends VerticalLayout implements Serializable {
 		add(nameField, buttonsLayout, manufacturerGrid);
 	}
 
-	private void resetGrid() {
+	public void resetGrid() {
 		manufacturerGrid.setItems(manufacturerService.getAllManufacturers());
 	}
 }
