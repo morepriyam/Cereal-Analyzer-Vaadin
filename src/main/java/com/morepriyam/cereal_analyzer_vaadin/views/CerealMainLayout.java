@@ -19,45 +19,41 @@ import jakarta.annotation.security.PermitAll;
 @Route("")
 public class CerealMainLayout extends AppLayout {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private final SecurityService securityService;
+	private final SecurityService securityService;
 
-    public CerealMainLayout(SecurityService securityService) {
-        this.securityService = securityService;
-        createHeader();
-        createDrawer();
-    }
+	public CerealMainLayout(SecurityService securityService) {
+		this.securityService = securityService;
+		createHeader();
+		createDrawer();
+	}
 
-    private void createHeader() {
-        H1 logo = new H1("Cereal Analyzer");
-        logo.addClassNames(
-            LumoUtility.FontSize.LARGE,
-            LumoUtility.Margin.MEDIUM);
+	private void createHeader() {
+		H1 logo = new H1("Cereal Analyzer");
+		logo.addClassNames(LumoUtility.FontSize.LARGE, LumoUtility.Margin.MEDIUM);
 
-        String username = securityService.getAuthenticatedUser().getUsername();
-        Button logout = new Button("Log out (" + username + ")", e -> securityService.logout());
+		String username = securityService.getAuthenticatedUser().getUsername();
+		Button logout = new Button("Log out (" + username + ")", e -> securityService.logout());
 
-        HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
-        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
-        header.expand(logo);
-        header.setWidthFull();
-        header.addClassNames(
-            LumoUtility.Padding.Vertical.NONE,
-            LumoUtility.Padding.Horizontal.MEDIUM);
+		HorizontalLayout header = new HorizontalLayout(new DrawerToggle(), logo, logout);
+		header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+		header.expand(logo);
+		header.setWidthFull();
+		header.addClassNames(LumoUtility.Padding.Vertical.NONE, LumoUtility.Padding.Horizontal.MEDIUM);
 
-        addToNavbar(header);
-    }
+		addToNavbar(header);
+	}
 
-    private void createDrawer() {
-        RouterLink cerealsLink = new RouterLink("Cereals", CerealView.class);
-        cerealsLink.setHighlightCondition(HighlightConditions.sameLocation());
+	private void createDrawer() {
+		RouterLink cerealsLink = new RouterLink("Cereals", CerealView.class);
+		cerealsLink.setHighlightCondition(HighlightConditions.sameLocation());
 
-        RouterLink manufacturersLink = new RouterLink("Manufacturers", ManufacturerView.class);
+		RouterLink manufacturersLink = new RouterLink("Manufacturers", ManufacturerView.class);
 
-        VerticalLayout drawerLayout = new VerticalLayout(cerealsLink, manufacturersLink);
-        drawerLayout.addClassNames(LumoUtility.Padding.MEDIUM);
-        
-        addToDrawer(drawerLayout);
-    }
+		VerticalLayout drawerLayout = new VerticalLayout(cerealsLink, manufacturersLink);
+		drawerLayout.addClassNames(LumoUtility.Padding.MEDIUM);
+
+		addToDrawer(drawerLayout);
+	}
 }

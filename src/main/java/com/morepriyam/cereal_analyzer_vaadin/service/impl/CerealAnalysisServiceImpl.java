@@ -15,10 +15,23 @@ import com.morepriyam.cereal_analyzer_vaadin.service.CerealAnalysisService;
 public class CerealAnalysisServiceImpl implements CerealAnalysisService {
 
 	private final CerealRepository repository;
+	
+
+    private static CerealAnalysisServiceImpl instance;
+
+
+    public static synchronized CerealAnalysisServiceImpl getInstance(CerealRepository repository) {
+        if (instance == null) {
+            instance = new CerealAnalysisServiceImpl(repository);
+        }
+        return instance;
+    }
+	
 
 	public CerealAnalysisServiceImpl(CerealRepository repository) {
 		this.repository = repository;
 	}
+	
 
 	@Override
 	public Optional<Cereal> getMaxRatedCereal() {
