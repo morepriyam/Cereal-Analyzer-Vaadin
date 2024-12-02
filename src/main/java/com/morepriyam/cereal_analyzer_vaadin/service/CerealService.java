@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.morepriyam.cereal_analyzer_vaadin.model.Cereal;
 
-public interface CerealService {
+public interface CerealService extends Subject {
 
 	/**
 	 * Fetches all the cereals from the data source.
