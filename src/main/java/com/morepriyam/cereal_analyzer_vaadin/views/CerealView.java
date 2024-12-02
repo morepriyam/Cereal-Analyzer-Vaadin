@@ -19,7 +19,7 @@ import jakarta.annotation.security.PermitAll;
 import java.util.List;
 
 @PermitAll
-public class CerealView extends VerticalLayout {
+public class CerealView extends VerticalLayout implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private final CerealService cerealService;
@@ -54,8 +54,9 @@ public class CerealView extends VerticalLayout {
 		this.cerealService = cerealService;
 		this.manufacturerService = manufacturerService;
 
-		// Use Singleton for CerealAnalysisServiceImpl
 		this.cerealAnalysisService = CerealAnalysisServiceImpl.getInstance(cerealRepository);
+
+		cerealService.addObserver(this);
 
 		cerealGrid.setColumns("id", "name", "type", "calories", "protein", "fat", "sodium");
 
@@ -182,7 +183,7 @@ public class CerealView extends VerticalLayout {
 	public NumberField getWeightField() {
 		return weightField;
 	}
-
+ 
 	public NumberField getCupsField() {
 		return cupsField;
 	}
@@ -193,5 +194,11 @@ public class CerealView extends VerticalLayout {
 
 	public NumberField getManufacturerIdField() {
 		return manufacturerIdField;
+	}
+
+	@Override
+	public void update() {
+		resetGrid(); // Refresh the grid
+		Notification.show("Grid updated!", 2000, Notification.Position.MIDDLE);
 	}
 }

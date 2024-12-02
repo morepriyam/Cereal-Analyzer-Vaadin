@@ -1,5 +1,6 @@
 package com.morepriyam.cereal_analyzer_vaadin.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,11 +11,13 @@ import org.springframework.web.server.ResponseStatusException;
 import com.morepriyam.cereal_analyzer_vaadin.model.Cereal;
 import com.morepriyam.cereal_analyzer_vaadin.repository.CerealRepository;
 import com.morepriyam.cereal_analyzer_vaadin.service.CerealService;
+import com.morepriyam.cereal_analyzer_vaadin.views.Observer;
 
 @Service
 public class CerealServiceImpl implements CerealService {
 
 	private final CerealRepository repository;
+	private final List<Observer> observers = new ArrayList<>();
 
 	public CerealServiceImpl(CerealRepository repository) {
 		this.repository = repository;
@@ -37,7 +40,9 @@ public class CerealServiceImpl implements CerealService {
 
 	@Override
 	public Cereal addCereal(Cereal cereal) {
+		notifyObservers();
 		return repository.save(cereal);
+		
 	}
 
 	@Override
@@ -53,7 +58,26 @@ public class CerealServiceImpl implements CerealService {
 	public boolean deleteCereal(String name) {
 		return repository.findByName(name).map(cereal -> {
 			repository.delete(cereal);
+			notifyObservers();
 			return true;
+			
 		}).orElse(false);
+	}
+
+	@Override
+	public void addObserver(Observer observer) {
+		observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		observers.remove(observer);
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer observer : observers) {
+			observer.update();
+		}
 	}
 }
